@@ -1,4 +1,13 @@
 footer{
   background-color: rgba(134, 109, 109, 0.829);
   color: rgb(236, 207, 207);
+  height: 35px;
+  margin: 10px,0;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  h3{
+    font-size: 22px;
+  }
+
 }
