@@ -30,3 +30,5 @@ Go to site and use
 - Describe any tests that you did not complete, skipped, etc
 
 #### UML
+
+![uml](./assets/UML-RESTy.jpg)
