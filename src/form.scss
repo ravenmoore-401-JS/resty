@@ -6,10 +6,26 @@ form{
   background-color: rgba(0, 0, 0, 0.301);
   height: 60px;
   margin: 10px auto;
+  h4{
+    color:blue;
+    font-weight: 300;
+    padding:5px;
+  }
 }
 button{
   margin: 5px;
   padding: 5px;
   border-radius: 12px;
   background-color: rgb(40, 143, 129);
+ }
+ #message{
+   border:ridge  black 1px;
+   width: 300px;
+   margin: 20px auto ;
+   padding: 5px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: rgb(245, 240, 201);
+
  }

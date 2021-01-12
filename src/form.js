@@ -30,7 +30,7 @@ class Form extends React.Component{
     return(
       <div id='form'>
         <form >
-          URL: <input onChange={this.handleInput}/>     
+          <h4>URL:</h4> <input onChange={this.handleInput}/>     
           <div onClick={this.handleType}>
             <button value='GET'>GET</button>
             <button value='POST'>POST</button>

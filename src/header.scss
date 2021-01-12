@@ -1,4 +1,13 @@
 header{
   background-color: rgba(134, 109, 109, 0.829);
-  color: rgb(236, 207, 207);
+  height: 50px;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  
+  h1{
+    font-size: 32px;
+    color:rgb(70, 25, 88);
+    margin: auto;
+  }
 }
