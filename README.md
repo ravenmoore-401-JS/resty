@@ -7,7 +7,7 @@
 ### Links and Resources
 
 - [ci/cd](https://github.com/ravenmoore-401-JS/resty/actions/new) (GitHub Actions)
-- [front-end application](https://codesandbox.io/s/mr-resty-1znj7)
+- [front-end application](https://codesandbox.io/s/resty-hukf4)
 - [REPO](https://github.com/ravenmoore-401-JS/resty/)
 - [submition](https://codesandbox.io/s/mr-resty-1znj7)
 
