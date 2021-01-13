@@ -1,21 +1,37 @@
 import React from 'react';
-import Header from "./header";
-import Footer from "./footer";
-import Form from "./form";
+import Header from "./header/header";
+import Footer from "./footer/footer";
+import Form from "./form/form";
+import Results from "./api-results/api-results";
 
-import './header.scss';
 import './app.scss';
-import './form.scss';
-import './footer.scss';
+import './header/header.scss';
+import './form/form.scss';
+import './footer/footer.scss';
 
+
+ 
 class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      results:[],
+    }
+  }
+  useApi = (results) => {
+    this.setState({results})
+  }
   render(){
     return(
       <>
         <Header />
-        <body>
-          <Form />
-        </body>
+        <Form 
+          useApi={this.useApi}
+        />
+        <Results
+          apiResults={this.state.results}
+        />
+      
 
         <Footer />
       </>
