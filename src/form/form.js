@@ -1,5 +1,6 @@
 import React from 'react';
 
+import './form.scss';
 
 class Form extends React.Component{
   constructor(props){
@@ -8,36 +9,84 @@ class Form extends React.Component{
       url: '',
       message: 'Type a url andselect a REST Type:',
       restType: '',
-      display: false,
+      needsBody: false,
+      needsId: false,
+      body: {},
+      id: ''
     }
   }
   handleInput= e =>{
     let input = e.target.value;
     this.setState({url: input})
   }
+  handleBody = e =>{
+    let body = e.target.value;
+    console.log(body)
+    this.setState({body})
+  }
+  handleId = e =>{
+    let id = e.target.value;
+    this.setState({id})
+  }
+  
   handleMessage = e => {
       e.preventDefault();
-      let output = `${this.state.restType} : ${this.state.url}`;
+      let output = `${this.state.restType} : ${this.state.url}/${this.state.body}`;
       this.setState({ message: output });
   }
 
   handleType = e => {
     e.preventDefault();
     let restType = e.target.value;
-    this.setState({ restType});
+    if (restType === 'POST'){
+      this.setState({needsBody: true})
+      this.setState({ restType});
+      //use user in put in box for body query fo fetch
+    }
+    if (restType === 'PUT'){
+      this.setState({needsBody: true})
+      this.setState({ restType});
+      //use user in put in box for body query fo fetch
+    }
+    if (restType === 'GET'){
+      this.setState({needsId: true})
+      this.setState({ restType});
+      //use user in put in box for body query fo fetch
+    }
+    if (restType === 'DELETE'){
+      this.setState({needsId: true})
+      this.setState({ restType});
+      //use user in put in box for body query fo fetch
+    }
   }
+
 
   hitApi = async (e) =>{
     const url = this.state.url;
     console.log('url:', this.state.url,'method:',this.state.restType)
 
-    const apiFetch = await fetch(url, {method: `${this.state.restType}`, mode : 'cors'})
-    .then(response => {
-      if(response.status !== 200)return;
-      return response.json()
-    });
-    console.log(apiFetch.results)
-    this.props.useApi(apiFetch.results)
+    try{
+      var apiFetch = await fetch(url, {method: this.state.restType ||'get', mode : 'cors'})
+ 
+    }catch(err){
+      console.error(err)
+    }
+
+    try{
+      let apiData = await apiFetch.json();
+      let headers = {};
+
+      for(let headerPair of apiFetch.headers.entries()){
+        headers[headerPair[0]]=headerPair[1];
+      }
+      console.log(headers)
+      this.props.giveAppTheHeaders(headers)
+
+      this.props.useApi(apiData)
+    }catch(err){
+      console.error(err);
+    }
+
   }
 
   render(){
@@ -51,11 +100,21 @@ class Form extends React.Component{
             <button value='PUT'>PUT</button>
             <button value='DELETE'>DELETE</button>
           </div>
+            {!this.state.needsBody ? false :
+              <div id='body'>
+                <input onChange={this.handleBody} type='text' id='body' placeholder='body info' name='body'/>
+              </div>
+            }
+            {!this.state.needsId ? false:
+            <div id='id'>
+              <input id='id' onChange={this.handleId} placeholder='id info' name="id"/>
+            </div>
+            }
+
+
            <span data-testid='go-button'>  <button onClick={this.handleMessage} type='submit'>GO!</button> </span> 
         </form>
-      
-    
-      
+
       <div id='UrlDisplay'>
         <p data-testid='message1'>{this.state.message} </p>
       <button onClick={this.hitApi}>Hit The API route?</button>
