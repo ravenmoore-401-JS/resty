@@ -31,8 +31,9 @@ class Form extends React.Component{
   
   handleMessage = e => {
       e.preventDefault();
-      let output = `${this.state.restType} : ${this.state.url}/${this.state.body}`;
-      this.setState({ message: output });
+      let outputUrl = `${this.state.restType} : ${this.state.url}`;
+      let outputBody = JSON.parse(this.state.body)
+      this.setState({ message: [outputUrl,outputBody] });
   }
 
   handleType = e => {
@@ -63,10 +64,16 @@ class Form extends React.Component{
 
   hitApi = async (e) =>{
     const url = this.state.url;
-    console.log('url:', this.state.url,'method:',this.state.restType)
+    const method = this.state.restType;
+    const body = this.state.body;
+    console.log('url:', this.state.url,'method:',method)
 
     try{
-      var apiFetch = await fetch(url, {method: this.state.restType ||'get', mode : 'cors'})
+      var apiFetch = await fetch(url, {
+        method: this.state.restType ||'get',
+        mode : 'cors',
+        body : body,
+      })
  
     }catch(err){
       console.error(err)
@@ -83,6 +90,7 @@ class Form extends React.Component{
       this.props.giveAppTheHeaders(headers)
 
       this.props.useApi(apiData)
+      this.props.saveHistory(url, method ,body)
     }catch(err){
       console.error(err);
     }
