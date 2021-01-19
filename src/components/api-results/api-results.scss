@@ -3,4 +3,8 @@
   display: flex;
   justify-content: left;
   text-align: left;
+  margin: auto;
+  max-height: 400px;
+  max-width: 960px;
+  overflow: scroll;
 }

@@ -28,8 +28,12 @@ class Main extends React.Component{
     this.setState({ headers });
 
   }
-  saveHisory = (history) => {
-    console.log('history', history);
+  saveHisory = (newHistory) => {
+    console.log('history', newHistory);
+    let currentHist = this.state.history
+    currentHist.push(newHistory)
+    this.setState({history: currentHist})
+    console.log('history after',this.state.history)
   }
 
   render(){
@@ -41,6 +45,7 @@ class Main extends React.Component{
             <Form 
             useApi={this.useApi}
             giveAppTheHeaders={this.collectHeaders}
+            saveHistory ={this.saveHisory}
             />
             <If condition={this.state.display}>
               <Results
@@ -56,9 +61,9 @@ class Main extends React.Component{
           </Route>
 
           <Route path="/history">
-            <History>
-              {this.state.history}
-            </History>
+            <History
+              history = {this.state.history}
+            />
           </Route>
           <Route path="/help">
             <Help />
