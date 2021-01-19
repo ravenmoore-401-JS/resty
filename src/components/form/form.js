@@ -28,13 +28,11 @@ class Form extends React.Component{
     let id = e.target.value;
     this.setState({id})
   }
-  
   handleMessage = e => {
       e.preventDefault();
-      let output = `${this.state.restType} : ${this.state.url}/${this.state.body}`;
-      this.setState({ message: output });
+      let outputUrl = `${this.state.restType} : ${this.state.url}`;
+      this.setState({ message: outputUrl });
   }
-
   handleType = e => {
     e.preventDefault();
     let restType = e.target.value;
@@ -62,11 +60,28 @@ class Form extends React.Component{
 
 
   hitApi = async (e) =>{
-    const url = this.state.url;
-    console.log('url:', this.state.url,'method:',this.state.restType)
+    let url = this.state.url;
+    const method = this.state.restType;
+    const body = this.state.body;
+    if(this.state.id){
+      url = `${url}/${this.state.id}`
+    }
+    console.log('url:',url,'method:',method ,'body', body, 'id',this.state.id)
+
 
     try{
-      var apiFetch = await fetch(url, {method: this.state.restType ||'get', mode : 'cors'})
+      if(this.state.needsBody === true){
+        var apiFetch = await fetch(url, {
+          method,
+          mode : 'cors',
+          body
+        })
+      }else{
+        apiFetch = await fetch(url, {
+          method: method || 'get',
+          mode : 'cors'
+        })
+      }
  
     }catch(err){
       console.error(err)
@@ -75,6 +90,7 @@ class Form extends React.Component{
     try{
       let apiData = await apiFetch.json();
       let headers = {};
+      
 
       for(let headerPair of apiFetch.headers.entries()){
         headers[headerPair[0]]=headerPair[1];
@@ -83,6 +99,8 @@ class Form extends React.Component{
       this.props.giveAppTheHeaders(headers)
 
       this.props.useApi(apiData)
+      let record = {url,method,body}
+      this.props.saveHistory(record)
     }catch(err){
       console.error(err);
     }
@@ -102,7 +120,7 @@ class Form extends React.Component{
           </div>
             {!this.state.needsBody ? false :
               <div id='body'>
-                <input onChange={this.handleBody} type='text' id='body' placeholder='body info' name='body'/>
+                <textarea onChange={this.handleBody}  id='body' placeholder='{body info}' name='body'/>
               </div>
             }
             {!this.state.needsId ? false:
